@@ -1,0 +1,45 @@
+Dobrý deň,
+posielam Vám tému na zápočtový program, na ktorej by som rád pracoval aj s tým,
+čo plánujem do programu približne zaimplementovať.
+
+Kalkulačka na lineárnu algebru
+    - V zásade bude aplikácia vo forme terminálovej aplikácie, okrem workflow nastavení, ktoré budú podobný CLI aplikáciám.
+    - Main loop aplikácie
+        - menu, kde si používateľ bude môcť vybra matematický modul
+        - po výbere modulu zadá požadovaný vstup
+        - po vykonaní operácie bude zobrazený výstup, možnosť uloženia do pamäte pre ďalšie výpočty
+        - možnosť opakovať operáciu v tom istom module, možnosť zmeniť modul, možnosť ukončiť program
+
+    - I/O časť
+        Input handler
+            rozpoznanie príkazu (každý príkaz bude začínať prefixom, napr. ".”), bude možné ho zavolať v rámci akéhokoľvek vstupu
+            blokovanie určitých príkazov počas výpočtu (napríklad zákaz menenia telesa počas výpočtu G-J elim.)
+        príkazy
+            napríklad: menenie telesa, v ktorom sa má počítať; zmena formy vstupu/výstupu; a i.
+
+    - Matematické moduly
+        Telesá
+            reálne čísla, konečné telesá Zₚ
+            operácie: sčítanie, násobenie, inverzie, porovnania
+
+        Vektory
+            vektor v priestore nad daným telesom, základné operácie (sčítanie, násobenie skalárom, porovnanie), lineárna závislosť
+
+        Matice
+            transpozícia, určovanie hodnosti, súčet + násobok matíc, skalárny násobok, inverzná matica
+
+        Permutácie
+            skladanie, inverzná permutácia, znamienko permutácie
+
+        Riešenie sústav lineárnych rovníc
+            Gaussova eliminácia, Gauss-Jordanova eliminácia
+            vrátenie výsledku v tvare: jedno riešenie, žiadne riešenie, parametrická množina riešení
+
+        Báza a generovanie
+            určenie či množina generuje priestor, doplnenie na bázu (Steinitz)
+
+    - Súborové operácie
+        import matíc, export matíc, export výsledku výpočtu
+
+S pozdravom,
+Peter Zaťko
