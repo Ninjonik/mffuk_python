@@ -1,6 +1,19 @@
-from numpy import *
+import sys
 
-x	= uint8(0b00101_000) # 5
-y = uint8(0b00011_000) # 3
-z = (uint16(x) << 3) // y
-print(z / (1 << 3))
+
+
+def daj_sem_dalsie_cislo():
+    char = sys.stdin.read(1)
+    cislo = None
+    while "0" <= char <= "9":
+        if cislo is None:
+            cislo = 0
+
+        char = ord(char) - 48
+        cislo = (cislo * 10) + char
+        char = sys.stdin.read(1)
+
+    if cislo is None:
+        return daj_sem_dalsie_cislo()
+
+    return cislo
