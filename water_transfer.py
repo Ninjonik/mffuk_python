@@ -12,6 +12,7 @@ Program vytiskne seznam všech objemů (včetně nuly, lze-li), kterých lze př
 (celý objem vody v kterékoliv z nádob) a u každého z nich uvede za dvojtečkou minimální počet potřebných přelití.
 Objemy v tomto seznamu budou vytištěny v rostoucím pořadí.
 
+
 Příklad:
 Vstup:
       4 1 1  1 1 1
