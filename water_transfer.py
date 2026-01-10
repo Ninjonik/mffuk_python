@@ -14,6 +14,7 @@ Objemy v tomto seznamu budou vytištěny v rostoucím pořadí.
 
 
 Příklad:
+
 Vstup:
       4 1 1  1 1 1
 
