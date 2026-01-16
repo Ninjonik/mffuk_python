@@ -1,80 +1,57 @@
-"""
-Máme tři nádoby o celočíselných objemech a, b, c (čísla a, b, c nejsou větší než 10) ve kterých je na začátku objem x, y, z vody, v tomto pořadí.
-
-Vodu můžeme přelévat z nádoby do nádoby, a to vždy tak, že nádobu kam lijeme, zcela zaplníme, nebo tak,
-že nádobu odkud lijeme, zcela vyprázdníme. Objem přelité vody je určen tím, která z těchto variant nastane dříve.
-
-Vodu nesmíme vylévat nikam jinam ani doplňovat z nějakého jiného zdroje.
-
-Vstupem programu jsou po řadě čísla a, b, c, x, y, z udávající objemy a počáteční obsahy nádob.
-
-Program vytiskne seznam všech objemů (včetně nuly, lze-li), kterých lze přeléváním dosáhnout
-(celý objem vody v kterékoliv z nádob) a u každého z nich uvede za dvojtečkou minimální počet potřebných přelití.
-Objemy v tomto seznamu budou vytištěny v rostoucím pořadí.
-
-
-Příklad:
-
-Vstup:
-      4 1 1  1 1 1
-
-Odpovídající výstup:
-      0:1 1:0 2:1 3:2
-"""
-
+import sys
 from collections import deque
 
 
-def bfs(kapacita, voda):
-    stavy_kroky = {}
-    queue = deque()
+def daj_sem_dalsie_cislo():
+    char = sys.stdin.read(1)
+    cislo = None
+    while 48 <= ord(char) <= 57:
+        if cislo is None:
+            cislo = 0
 
-    queue.append((voda, 0))  # (stav, počet krokov)
-    stavy_kroky[voda] = 0
+        char = ord(char) - 48
+        cislo = (cislo * 10) + char
+        char = sys.stdin.read(1)
 
-    while queue:
-        aktualna_voda, kroky = queue.popleft()
+    if cislo is None:
+        return daj_sem_dalsie_cislo()
 
-        # prelievame z nádoby i do nádoby j
-        for i in range(3):  # z ktorej nádoby
-            for j in range(3):  # do ktorej nádoby
-                if i == j:  # nemôžeme prelievať do sebe samej
-                    continue
+    return cislo
 
-                # nový stav po preliatí
-                novy_stav = list(aktualna_voda)
 
-                # Môžeme preliať minimum z: voda v i, koľko sa zmestí do nádoby j
-                preliatie = min(novy_stav[i], kapacita[j] - novy_stav[j])
+a, b, c, x, y, z = daj_sem_dalsie_cislo(), daj_sem_dalsie_cislo(), daj_sem_dalsie_cislo(), daj_sem_dalsie_cislo(), daj_sem_dalsie_cislo(), daj_sem_dalsie_cislo()
 
-                novy_stav[i] -= preliatie
-                novy_stav[j] += preliatie
+kapacity = (a, b, c)
+initial_state = (x, y, z)
+
+fronta = deque([(initial_state, 0)])
+visited = {initial_state}
+
+# objem -> min_krokov
+results = {}
+
+while len(fronta) > 0:
+    stav, krokov = fronta.popleft()
+
+    for objem in stav:
+        if objem not in results or results[objem] > krokov:
+            results[objem] = krokov
+
+    for i in range(3):
+        for j in range(3):
+            if i == j:
+                continue
+
+            mozem_preliat = min(stav[i], kapacity[j] - stav[j])
+            if mozem_preliat > 0:
+                novy_stav = list(stav)
+                novy_stav[i] -= mozem_preliat
+                novy_stav[j] += mozem_preliat
                 novy_stav = tuple(novy_stav)
 
-                # ak je stav nový, pridáme do fronty (na poradí nádob nezáleží)
-                if novy_stav not in stavy_kroky:
-                    stavy_kroky[novy_stav] = kroky + 1
-                    queue.append((novy_stav, kroky + 1))
+                if novy_stav not in visited:
+                    visited.add(novy_stav)
+                    fronta.append((novy_stav, krokov + 1))
 
-    stavy = {}  # stav -> min počet krokov
-
-    for stav, kroky in stavy_kroky.items():
-        for objem in stav:
-            if objem not in stavy or kroky < stavy[objem]:
-                stavy[objem] = kroky
-
-    # Zatriedime lexikograficky
-    vysledok = []
-    for objem in sorted(stavy.keys()):
-        vysledok.append(f"{objem}:{stavy[objem]}")
-
-    print(" ".join(vysledok))
-
-
-vstup = input().split()
-a, b, c, x, y, z = map(int, vstup)
-
-kapacita = (a, b, c)
-voda = (x, y, z)
-
-bfs(kapacita, voda)
+for objem in sorted(results.keys()):
+    print(f"{objem}:{results[objem]}", end=" ")
